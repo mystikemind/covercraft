@@ -464,7 +464,7 @@ Guidelines:
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'gpt-4o-mini',
           max_tokens: 1000,
           stream: true,
           messages: [{ role: 'user', content: prompt }]
@@ -487,8 +487,8 @@ Guidelines:
           if (data === '[DONE]') continue;
           try {
             const json = JSON.parse(data);
-            if (json.type === 'content_block_delta' && json.delta?.text) {
-              fullText += json.delta.text;
+            if (json.choices?.[0]?.delta?.content) {
+              fullText += json.choices[0].delta.content;
               outputEl.textContent = fullText;
               outputEl.appendChild(cursor);
             }
