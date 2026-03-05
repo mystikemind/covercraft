@@ -5,7 +5,7 @@ export default async function handler(req) {
     return new Response('Method not allowed', { status: 405 });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     return new Response(JSON.stringify({ error: 'API key not configured' }), {
       status: 500,
@@ -15,17 +15,20 @@ export default async function handler(req) {
 
   const body = await req.json();
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
+      'Authorization': `Bearer ${apiKey}`,
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      max_tokens: 1000,
+      stream: true,
+      messages: body.messages,
+    }),
   });
 
-  // Stream the response back to the client
   return new Response(response.body, {
     status: response.status,
     headers: {
