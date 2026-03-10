@@ -344,6 +344,11 @@
         <label for="why">Why this company? (optional)</label>
         <input type="text" id="why" placeholder="e.g. I admire their focus on sustainability and innovation..." />
       </div>
+      <div>
+        <label for="jd">Job Description <span style="font-weight:300;color:var(--muted)">(optional but recommended)</span></label>
+        <textarea id="jd" placeholder="Paste the full job description here — the AI will match keywords and tailor the letter to the role..." style="min-height:120px;"></textarea>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">💡 Adding a JD improves keyword matching for ATS systems</div>
+      </div>
     </div>
   </div>
 
@@ -436,6 +441,7 @@
     const years = document.getElementById('years').value.trim();
     const skills = document.getElementById('skills').value.trim();
     const why = document.getElementById('why').value.trim();
+    const jd = document.getElementById('jd').value.trim();
 
     if (!name || !role || !company || !skills) {
       showError('Please fill in Name, Job Title, Company, and Skills.');
@@ -449,12 +455,14 @@
 Experience: ${years || 'not specified'}.
 Key skills and achievements: ${skills}.
 ${why ? `Reason for interest in this company: ${why}.` : ''}
+${jd ? `Job Description to tailor the letter to (mirror keywords and language from this JD naturally): ${jd}` : ''}
 
 Guidelines:
 - 3–4 paragraphs, no longer than 350 words
 - Do NOT use generic filler phrases like "I am writing to express my interest"
 - Start with a compelling opening line
 - Sound like a real, confident human wrote it
+- If a job description is provided, naturally weave in relevant keywords and phrases from it
 - Do NOT include subject lines or "Dear Hiring Manager" headers — start directly with the body
 - End with a confident closing paragraph and sign off as ${name}`;
 
